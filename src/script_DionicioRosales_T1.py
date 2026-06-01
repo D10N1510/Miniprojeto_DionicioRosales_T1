@@ -153,14 +153,45 @@ def limpeza_dados(df):
     return df
 
 
-# Gerar estatísticas descritivas 
-# para coluna de número de filhos do cliente (média; mediana; desvio padrão; moda; máximo; mínimo; e contagem).
+# ========================== Gerar estatísticas descritivas ========================== 
+# Para coluna de número de filhos do cliente CL_FHL (média; mediana; desvio padrão; moda; máximo; mínimo; e contagem).
+def estatistica_coluna_específica(df , coluna_especifica):
+    valor_media = df[coluna_especifica].mean()
+    valor_std =  df[coluna_especifica].std()
+    valor_moda = df[coluna_especifica].mode()
+    valor_maximo = df[coluna_especifica].max()
+    valor_minimo = df[coluna_especifica].min()
+    valor_contagem = df[coluna_especifica].sum()
+
+    print(f"Estatísticas da coluna {coluna_especifica}")
+    print(f"Valor da média {valor_media}")
+    print(f"Valor da moda {valor_moda}")
+    print(f"Valor do desvio padrão {valor_std}")
+    print(f"Valor da mínimo {valor_minimo}")
+    print(f"Valor da máximo {valor_maximo}")
+    print(f"Soma total (contagem) {valor_contagem}")
 
 
+# ============================ Explorar padrões de agrupamento ============================
+# Com pelo menos dois agrupamentos (por exemplo: gênero com mais vendas, compras), usando groupby() ou pivot_table().
 
-# Explorar padrões de agrupamento 
-# com pelo menos dois agrupamentos (por exemplo: gênero com mais vendas, compras), usando groupby() ou pivot_table().
+def reporta_agrupamentos(df):
 
+    # quantidade de vendas por categoria
+    contagem = df.groupby(df["PR_CAT"]).size()
+    print(contagem.sort_values())
+    # categoria que mais vendeu foi ALIMENTOS
+
+    # quantidade de vendas por genero
+    contagem = df.groupby(df["CL_GENERO"]).size()
+    print(contagem.sort_values())
+    # GENERO que mais comprou foi F
+
+    # quantidade de vendas por estado civil
+    # 1:Casado ou uniao estavel, 2:Divorciado, 3:Separado, 4:Solteiro 5:Viuvo
+    contagem = df.groupby(df["CL_EC"]).size()
+    print(contagem.sort_values())
+    # ESTADO CIVIL que mais comprou foi 3 (Separado)
 
 # Produzir um pequeno bloco de conclusões (3–6 tópicos) com os principais insights obtidos e possíveis problemas remanescentes na base.
 
@@ -174,6 +205,10 @@ def main():
     descrever_dados(df)
     reportar_problemas(df)
     df = limpeza_dados(df)
+    coluna_especifica = "CL_FHL"
+    estatistica_coluna_específica(df , coluna_especifica)
+    reporta_agrupamentos(df)
+
 
 if __name__ == '__main__':
     main()
