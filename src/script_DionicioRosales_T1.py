@@ -200,7 +200,9 @@ def reporta_conclusoes(df):
     print(" 1.- Categoria (PR_CAT) que mais vendeu foi ALIMENTOS.")
     print(" 2.- GENERO (CL_GENERO) que mais comprou foi F (Feminino).")
     print(" 3.- ESTADO CIVIL (CL_EC) que mais comprou foi 3 (Separado).")
-    print("A base ainda tem 3228 linhas com valores SEM_CATEGORIA.")
+    print(" 4.- O máximo número de filhos por cliente é 4 e o mínimo é 0.")
+    print(" 5.- O valor médio do número de filhos por cliente é 1.")
+    print(" 6.- A base ainda tem 3228 linhas com valores SEM_CATEGORIA.")
 
 def salvar_arquivo_limpo(df, caminho_salvar):
     df.to_csv(caminho_salvar, index=False, sep=';', encoding='utf-8-sig')
