@@ -20,14 +20,57 @@ def carregar_dados(caminho,type):
 
 def descrever_dados(df):
 # visualizando informações iniciais do dataset
+
+    print("="*20 + " Carregando DataFrame Original " + "="*20)
     print(df.info())
-    print(df.shape)
-    print(df.head())
+    print(df.dtypes)
+    qtd_linhas_df_original = df.shape[0]
+    qtd_colunas_df_original = df.shape[1]
+    print(f"Total de linhas do dataframe: {qtd_linhas_df_original}")
+    print(f"Total de colunas do dataframe: {qtd_colunas_df_original}")
+    print("Colunas:")
     print(df.columns)
+    print("Cabeçalho do dataframe: ")
+    print(df.head())
+    print("="*70)
+    print("\n")
 
 # Verificar e reportar problemas 
-# valores nulos por coluna, duplicatas e possíveis inconsistências (ex.: datas inválidas ou categorias vazias).
+def verifica_nulosxcoluna(df):
+    print("Quantidade de valores nulos por coluna: ")
+    print(df.isnull().sum())
 
+    print("Porcentagem de valores nulos por coluna: ")
+    print( (df.isnull().mean() * 100).round(2))
+    print("\n")
+
+
+def verifica_duplicatas(df):
+    qtd_duplicadas = df.duplicated().sum()    
+    print(f"Quantidade de linhas duplicadas: {qtd_duplicadas}")
+    print("\n")
+
+def inconsistencia_nome_coluna(df):
+    print([col for col in df.columns if 'Unnamed' in str(col)])
+
+def inconsistencia_data_invalida(df):
+    df['datas_na'] = pd.to_datetime(df['DATA'], errors='coerce')    
+    linhas_data_invalidas = df['datas_na'].isnull().sum()
+    print(f"Quantidade de linhas com datas inválidas: {linhas_data_invalidas}")
+
+# valores nulos por coluna, duplicatas e possíveis inconsistências (ex.: datas inválidas ou categorias vazias).
+def reportar_problemas(df):
+
+    print("="*20 + " Reportando Problemas " + "="*20)
+    # verifica nulos por coluna
+    verifica_nulosxcoluna(df)
+    # verifica duplicatas
+    verifica_duplicatas(df)
+    # possiveis inconsistencias
+    inconsistencia_nome_coluna(df)
+    inconsistencia_data_invalida(df)    
+    print("="*60)
+    
 
 
 # Etapas de Limpeza 
@@ -55,6 +98,8 @@ def main():
     caminho = "data/Varejo.csv"
     df = carregar_dados(caminho,"csv")
     descrever_dados(df)
+
+    reportar_problemas(df)
 
 if __name__ == '__main__':
     main()
