@@ -76,6 +76,7 @@ def reportar_problemas(df):
 
 # ==================== Etapas de Limpeza ====================
 
+# Padronizar valores numericos para Int64
 def padroniza_valores_numericos(df, colunas_num):
     for coluna in colunas_num:
         df[coluna] = pd.to_numeric(df[coluna], errors="coerce")
@@ -84,12 +85,14 @@ def padroniza_valores_numericos(df, colunas_num):
 
     return df
 
+# Padronizar valores texto para maiúsculo e sem espaços
 def padroniza_valores_texto(df, colunas_str):
     for coluna in colunas_str:
-        df[coluna] = df[coluna].astype(str).strip().replace(" ", "", regex=False).upper()
+        df[coluna] = df[coluna].astype(str).str.strip().str.upper()
 
     return df
 
+# Padronizar datas validas para tipo datetime e inválidas pra nulo
 def padroniza_datas(df, colunas_datas):
     for coluna in colunas_datas:
         df[coluna] = pd.to_datetime(df[coluna], format="%d/%m/%Y", errors="coerce")
@@ -97,7 +100,7 @@ def padroniza_datas(df, colunas_datas):
     return df
 
 def padronizar_tipos_dados(df):
-    colunas_num=["CO_ID","CL_ID","CL_FHL","PD_ID"]
+    colunas_num=["CO_ID","CL_ID","CL_FHL","PR_ID"]
     df = padroniza_valores_numericos(df,colunas_num)
     print("Valores numericos padronizados para inteiros.")
 
@@ -108,22 +111,46 @@ def padronizar_tipos_dados(df):
     
     colunas_datas=["DATA"]
     df = padroniza_datas(df, colunas_datas)
-
-    print()
-
-def remover_imputar_nulos(df):
+    print("Valores de datas padronizadas pra tipo datetime. Datas inválidas são atribuidas como valor nulo")
 
     return df
 
+# Remover linhas com valores nulos em qualquer coluna
+def remover_nulos(df):
+    df = df.dropna()
+    print("Removendo linhas que possuem qualquer valor nulo em alguma coluna.")
+
+    return df
+
+# remover linhas duplicadas e manter a primeira ocorrência
 def eliminar_duplicatas(df):
+    df = df.drop_duplicates(keep="first")
 
     return df
 
-# remover ou imputar nulos (explique a escolha), eliminar duplicatas relevantes e ajustar tipos de dados (ex.: converter coluna DATA para datetime).
+# Imputar o valor "SEM-CATEGORIA" pro valor #N/D encontrado na coluna PR_CAT
+def imputar_valores(df):    
+    print(df["PR_CAT"].unique())
+    # ['BEBIDAS', 'HIGIENE', 'ALIMENTOS', 'LIMPEZA', 'ACESSORIOS', 'PET', '#N/D']
+    # imputar o valor SEM_CATEGORIA pra #N/D
+    df.loc[df["PR_CAT"]=='#N/D',"PR_CAT"] = "SEM-CATEGORIA"
+    print(df["PR_CAT"].unique())
+
+    return df
+
+# remover nulos, eliminar duplicatas relevantes e ajustar tipos de dados.
 def limpeza_dados(df):
-    df=padronizar_tipos_dados(df)
-    df=remover_imputar_nulos(df)
-    df=eliminar_duplicatas(df)
+    # selecionar colunas com valores validos (10 primeiras)
+    colunas = df.columns
+    colunas = colunas[0:10]
+    print(f"Colunas validas {colunas}")
+    df = df[colunas]
+    df = padronizar_tipos_dados(df)
+    df = remover_nulos(df)
+    df = eliminar_duplicatas(df)
+    df = imputar_valores(df)
+
+    return df
 
 
 # Gerar estatísticas descritivas 
@@ -145,8 +172,8 @@ def main():
     caminho = "data/Varejo.csv"
     df = carregar_dados(caminho,"csv")
     descrever_dados(df)
-
     reportar_problemas(df)
+    df = limpeza_dados(df)
 
 if __name__ == '__main__':
     main()
