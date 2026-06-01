@@ -193,11 +193,18 @@ def reporta_agrupamentos(df):
     print(contagem.sort_values())
     # ESTADO CIVIL que mais comprou foi 3 (Separado)
 
-# Produzir um pequeno bloco de conclusões (3–6 tópicos) com os principais insights obtidos e possíveis problemas remanescentes na base.
+# ====================================================
+# Produzir um pequeno bloco de conclusões com os principais insights obtidos e possíveis problemas remanescentes na base.
+def reporta_conclusoes(df):
+    print (" ================== CONLCUSOES ===========================")
+    print(" 1.- Categoria (PR_CAT) que mais vendeu foi ALIMENTOS.")
+    print(" 2.- GENERO (CL_GENERO) que mais comprou foi F (Feminino).")
+    print(" 3.- ESTADO CIVIL (CL_EC) que mais comprou foi 3 (Separado).")
+    print("A base ainda tem 3228 linhas com valores SEM_CATEGORIA.")
 
-
-
-
+def salvar_arquivo_limpo(df, caminho_salvar):
+    df.to_csv(caminho_salvar, index=False, sep=';', encoding='utf-8-sig')
+    print(f"Dataset limpo salvo com sucesso.!")
 
 def main():
     caminho = "data/Varejo.csv"
@@ -208,7 +215,9 @@ def main():
     coluna_especifica = "CL_FHL"
     estatistica_coluna_específica(df , coluna_especifica)
     reporta_agrupamentos(df)
-
+    reporta_conclusoes(df)
+    caminho_salvar = "data/Varejo_limpo.csv"
+    salvar_arquivo_limpo(df, caminho_salvar)
 
 if __name__ == '__main__':
     main()
