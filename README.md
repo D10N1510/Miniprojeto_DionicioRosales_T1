@@ -35,5 +35,5 @@ Após aplicar a análise exploratória de dados (AED), se obteve os seguintes in
 * Aplicação de agrupamentos usando groupby para as colunas PR_CAT, CL_GENERO e CL_EC para obter a quantidade de vendas por categoria, genero e estado civil, respectivamente. 
 
 ## Resultado do AED
-Após executar o arquivo .py, o arquivo "Varejo_limpo.csv" contendo a base limpa é salva na pasta dados.
+Após executar o arquivo .py, o arquivo "Varejo_limpo.csv" contendo a base limpa é salva na pasta data.
 
