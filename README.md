@@ -1,4 +1,3 @@
-[README_DionicioRosales_T1.md](https://github.com/user-attachments/files/28485196/README_DionicioRosales_T1.md)
 
 # Mini-Projeto Avaliativo - Módulo 1
 
