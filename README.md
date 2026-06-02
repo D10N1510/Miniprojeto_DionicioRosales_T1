@@ -13,7 +13,7 @@
 ## Como executar
 * Baixar projeto como zip ou clonar o repositorio
 * Instalar dependencias: pip install -r requirements.txt
-* Disponibilizar a base "varejo.csv" na pasta "data"
+* Disponibilizar a base "Varejo.csv" na pasta "data"
 * Executar o arquivo script_DionicioRosales_T1.py
 
 ## Insights obtidos
